@@ -45,6 +45,7 @@ namespace RemarkableSync.OnenoteAddin
         private Application _application;
         private IConfigStore _configStore;
         private string _settingsRegPath;
+        private List<RmTreeNode> rootItems;
 
         public RmArchiveForm(Application application, string settingsRegPath)
         {
@@ -104,6 +105,7 @@ namespace RemarkableSync.OnenoteAddin
 
             Console.WriteLine("Got item hierarchy from remarkable cloud");
             var treeNodeList = RmTreeNode.FromRmItem(rootItems);
+            this.rootItems = treeNodeList;
 
             rmTreeView.Nodes.AddRange(treeNodeList.ToArray());
             Console.WriteLine("Added nodes to tree view");
@@ -118,22 +120,26 @@ namespace RemarkableSync.OnenoteAddin
 
         private async void btnOk_Click(object sender, EventArgs e)
         {
-            if (rmTreeView.SelectedNode == null)
+            if (rmTreeView.SelectedNode == null && !chkArchiveAll.Checked)
             {
                 MessageBox.Show(this, "No document selected.");
                 return;
             }
 
-            RmTreeNode rmTreeNode = (RmTreeNode) rmTreeView.SelectedNode;
-            Console.WriteLine($"Selected: {rmTreeNode.VisibleName} | {rmTreeNode.ID}");
-
             try {
-                bool success;
-                if (rmTreeNode.IsCollection) {
-                    success = await ImportDocuments(rmTreeNode);
-                } 
-                else {
-                    success = await ImportDocument(rmTreeNode);
+                bool success = true;
+                if (chkArchiveAll.Checked)
+                {
+                    foreach (RmTreeNode node in rootItems)
+                    {
+                        success &= await ImportDocuments(node);
+                    }
+                }
+                else
+                {
+                    RmTreeNode rmTreeNode = (RmTreeNode)rmTreeView.SelectedNode;
+                    Console.WriteLine($"Selected: {rmTreeNode.VisibleName} | {rmTreeNode.ID}");
+                    success &= await ImportDocuments(rmTreeNode);
                 }
                 Console.WriteLine("Import " + (success ? "successful" : "failed"));
 
@@ -153,13 +159,24 @@ namespace RemarkableSync.OnenoteAddin
             //MessageBox.Show("import multiple documents - " + rmTreeNode.VisibleName);
             bool result = true;
 
-            foreach (RmTreeNode n in rmTreeNode.Nodes) {
-            
-                if (n.IsCollection) {
-                    result &= await ImportDocuments(n);
-                } else {
-                    result &= await ImportDocument(n);
+            if (rmTreeNode.IsCollection)
+            {
+                foreach (RmTreeNode n in rmTreeNode.Nodes)
+                {
+
+                    if (n.IsCollection)
+                    {
+                        result &= await ImportDocuments(n);
+                    }
+                    else
+                    {
+                        result &= await ImportDocument(n);
+                    }
                 }
+            }
+            else
+            {
+                result &= await ImportDocument(rmTreeNode);
             }
 
             return result;
@@ -250,6 +267,18 @@ namespace RemarkableSync.OnenoteAddin
         private void rmTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
+        }
+
+        private void chkArchiveAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkArchiveAll.Checked)
+            {
+                rmTreeView.Enabled = false;
+            } else
+            {
+                rmTreeView.Enabled = true;
+            }
+            
         }
     }
 }

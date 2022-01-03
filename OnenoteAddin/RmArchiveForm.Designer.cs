@@ -31,10 +31,11 @@ namespace RemarkableSync.OnenoteAddin
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RmArchiveForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
-            this.btnOk = new System.Windows.Forms.Button();
             this.rmTreeView = new System.Windows.Forms.TreeView();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.chkArchiveAll = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,20 +46,21 @@ namespace RemarkableSync.OnenoteAddin
             this.tableLayoutPanel.Controls.Add(this.rmTreeView, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.btnOk, 0, 3);
             this.tableLayoutPanel.Controls.Add(this.btnCancel, 1, 3);
+            this.tableLayoutPanel.Controls.Add(this.chkArchiveAll, 0, 2);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            // 
-            // btnCancel
-            // 
-            resources.ApplyResources(this.btnCancel, "btnCancel");
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // lblInfo
             // 
             resources.ApplyResources(this.lblInfo, "lblInfo");
             this.tableLayoutPanel.SetColumnSpan(this.lblInfo, 2);
             this.lblInfo.Name = "lblInfo";
+            // 
+            // rmTreeView
+            // 
+            this.tableLayoutPanel.SetColumnSpan(this.rmTreeView, 2);
+            resources.ApplyResources(this.rmTreeView, "rmTreeView");
+            this.rmTreeView.Name = "rmTreeView";
+            this.rmTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.rmTreeView_AfterSelect);
             // 
             // btnOk
             // 
@@ -67,12 +69,19 @@ namespace RemarkableSync.OnenoteAddin
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // rmTreeView
+            // btnCancel
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.rmTreeView, 2);
-            resources.ApplyResources(this.rmTreeView, "rmTreeView");
-            this.rmTreeView.Name = "rmTreeView";
-            this.rmTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.rmTreeView_AfterSelect);
+            resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // chkArchiveAll
+            // 
+            resources.ApplyResources(this.chkArchiveAll, "chkArchiveAll");
+            this.chkArchiveAll.Name = "chkArchiveAll";
+            this.chkArchiveAll.UseVisualStyleBackColor = true;
+            this.chkArchiveAll.CheckedChanged += new System.EventHandler(this.chkArchiveAll_CheckedChanged);
             // 
             // RmArchiveForm
             // 
@@ -94,5 +103,6 @@ namespace RemarkableSync.OnenoteAddin
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.TreeView rmTreeView;
+        private System.Windows.Forms.CheckBox chkArchiveAll;
     }
 }

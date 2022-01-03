@@ -264,6 +264,36 @@
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="chkArchiveAll.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="chkArchiveAll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkArchiveAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 449</value>
+  </data>
+  <data name="chkArchiveAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>308, 39</value>
+  </data>
+  <data name="chkArchiveAll.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chkArchiveAll.Text" xml:space="preserve">
+    <value>Archive all notes</value>
+  </data>
+  <data name="&gt;&gt;chkArchiveAll.Name" xml:space="preserve">
+    <value>chkArchiveAll</value>
+  </data>
+  <data name="&gt;&gt;chkArchiveAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkArchiveAll.Parent" xml:space="preserve">
+    <value>tableLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;chkArchiveAll.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="tableLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -295,7 +325,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblInfo" Row="1" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="rmTreeView" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="btnOk" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnCancel" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,72.5,Percent,18.25,Percent,9.25,Absolute,52" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblInfo" Row="1" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="rmTreeView" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="btnOk" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnCancel" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="chkArchiveAll" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,72.5,Percent,18.25,Percent,9.25,Absolute,52" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
