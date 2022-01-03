@@ -130,6 +130,25 @@ namespace RemarkableSync.OnenoteAddin
             _application.UpdatePageContent(doc.ToString(), DateTime.MinValue, XMLSchema.xs2013);
         }
 
+        public void AppendImagesAndText(string pageId, List<Bitmap> images, List<string> textList, double zoom = 1.0)
+        {
+            string xml;
+            _application.GetPageContent(pageId, out xml, PageInfo.piAll, XMLSchema.xs2013);
+            var pageDoc = XDocument.Parse(xml);
+
+            int yPos = GetBottomContentYPos(pageDoc);
+            
+            for (int i = 0; i < images.Count; i++)
+            {
+                var image = images[i];
+                var text = textList[i];
+                AppendText(pageDoc, image, text, zoom, yPos);
+                yPos = AppendImage(pageDoc, image, zoom, yPos) + ImageGap;
+            }
+
+            _application.UpdatePageContent(pageDoc.ToString(), DateTime.MinValue, XMLSchema.xs2013);
+        }
+
         public void AppendPageImages(string pageId, List<Bitmap> images, double zoom = 1.0)
         {
             string xml;
@@ -173,6 +192,36 @@ namespace RemarkableSync.OnenoteAddin
 
             pageDoc.Root.Add(imageEl);
             return (yPos + height);
+        }
+
+        private void AppendText(XDocument pageDoc, Bitmap bitmap, string text, double zoom, int yPos)
+        {
+            //TODO: is the height attribute needed for text?
+            int height = (int)Math.Round(bitmap.Height * zoom);
+            int width = (int)Math.Round(bitmap.Width * zoom);
+
+            var ns = pageDoc.Root.Name.Namespace;
+
+            XElement positionEl = new XElement(ns + "Position");
+            positionEl.Add(new XAttribute("x", PageXOffset + width + ImageGap));
+            positionEl.Add(new XAttribute("y", yPos));
+
+            var contentLines = text.Split('\n').ToList();
+            XElement newOutline = new XElement(ns + "Outline");
+            XElement oeChildren = new XElement(ns + "OEChildren");
+
+            foreach (string contentLine in contentLines)
+            {
+                XElement oe = new XElement(ns + "OE");
+                XElement t = new XElement(ns + "T");
+                t.Add(new XCData(contentLine));
+                oe.Add(t);
+                oeChildren.Add(oe);
+            }
+
+            newOutline.Add(positionEl);
+            newOutline.Add(oeChildren);
+            pageDoc.Root.Add(newOutline);
         }
 
         private void GetNamespace()

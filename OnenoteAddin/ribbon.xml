@@ -13,6 +13,7 @@
         <group id="groupRemarkableSync" label="Sync">
           <button id="buttonSettings" label="Settings" size="large" screentip="Settings" onAction="onSettingsClicked" image="Settings"/>
           <button id="buttonDownload" label="Fetch" size="large" screentip="Download from Remarkable" onAction="onDownloadButtonClicked" image="DownloadDoc"/>
+		    <button id="buttonArchive" label="Archive Notebook" size="large" screentip="Download a Remarkable notebook, save both png and text forms of the notebook" onAction="onArchiveButtonClicked" image="DownloadDoc"/>
         </group>
       </tab>
     </tabs>

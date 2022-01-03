@@ -32,8 +32,10 @@ namespace RemarkableSync.OnenoteAddin
 		private const string _settingsRegPath = @"Software\Microsoft\Office\OneNote\AddInsData\RemarkableSync.OnenoteAddin";
 
 		private RmDownloadForm _downloadForm;
+		private RmArchiveForm _archiveForm;
 		private SettingsForm _settingForm;
 		private Thread _downloadFormThread;
+		private Thread _archiveFormThread;
 		private Thread _settingFormThread;
 		private ReferenceCountedObjectBase _refCountObj;
 
@@ -157,6 +159,27 @@ namespace RemarkableSync.OnenoteAddin
 			return;
 		}
 
+		public async Task onArchiveButtonClicked(IRibbonControl control)
+		{
+			if (_archiveFormThread == null)
+			{
+				Window context = control.Context as Window;
+				CWin32WindowWrapper owner = new CWin32WindowWrapper((IntPtr)context.WindowHandle);
+
+				_archiveFormThread = new Thread(ShowArchiveForm);
+				_archiveFormThread.SetApartmentState(ApartmentState.STA);
+				_archiveFormThread.Start(owner);
+			}
+			else
+			{
+				// shouldn't happen as the download form is modal
+				_downloadForm?.Invoke(new Action(() => {
+					SetForegroundWindow(_downloadForm.Handle);
+				}));
+			}
+			return;
+		}
+
 		public async Task onSettingsClicked(IRibbonControl control)
         {
 			if (_settingFormThread == null)
@@ -186,6 +209,16 @@ namespace RemarkableSync.OnenoteAddin
 			_downloadForm.ShowDialog(owner);
 			_downloadForm = null;
 			_downloadFormThread = null;
+		}
+
+		private void ShowArchiveForm(dynamic owner)
+		{
+			System.Windows.Forms.Application.EnableVisualStyles();
+			_archiveForm = new RmArchiveForm(OneNoteApplication, _settingsRegPath);
+			_archiveForm.Visible = false;
+			_archiveForm.ShowDialog(owner);
+			_archiveForm = null;
+			_archiveFormThread = null;
 		}
 
 		private void ShowSettingsForm(dynamic owner)

@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.IO;
 using RemarkableSync.RmLine;
-
+using System.Windows.Forms;
 
 namespace RemarkableSync
 {
@@ -62,6 +62,7 @@ namespace RemarkableSync
             if (_appKey == "" || _hmacKey == "")
             {
                 Console.WriteLine("MyScriptClient::RequestHwr() -  Unable to send request due to appkey or hmac kay being empty");
+                MessageBox.Show("MyScriptClient::RequestHwr() -  Unable to send request due to appkey or hmac kay being empty");
                 return null;
             }
 
@@ -94,6 +95,7 @@ namespace RemarkableSync
                 if (!response.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"MyScriptClient::RequestHwr() - Request was not successful. Return status: {response.StatusCode}, {response.ReasonPhrase}");
+                    MessageBox.Show($"MyScriptClient::RequestHwr() - Request was not successful. Return status: {response.StatusCode}, {response.ReasonPhrase}");
                     return null;
                 }
 
@@ -102,6 +104,7 @@ namespace RemarkableSync
             catch(Exception err)
             {
                 Console.WriteLine($"MyScriptClient::RequestHwr() - HWR request exception: {err.Message}.\n {err.StackTrace}");
+                MessageBox.Show($"MyScriptClient::RequestHwr() - HWR request exception: {err.Message}.\n {err.StackTrace}");
                 return null;
             }
 
@@ -113,6 +116,7 @@ namespace RemarkableSync
             catch (Exception err)
             {
                 Console.WriteLine($"MyScriptClient::RequestHwr() - MyScriptResult json deseralizing failed with: {err.Message}.\n Content:\n{responseContentString}");
+                MessageBox.Show($"MyScriptClient::RequestHwr() - MyScriptResult json deseralizing failed with: {err.Message}.\n Content:\n{responseContentString}");
                 return null;
             }
         }
